@@ -1,8 +1,10 @@
 ﻿
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using IMC_TaxService.Models;
 using IMC_TaxService.Services;
+using IMC_TaxService.TaxServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -12,7 +14,7 @@ namespace IMC_TaxService.Tests
 {
     public class TaxServiceTests
     {
-        private readonly TaxService _taxService;
+        private readonly TaxJarService _taxService;
 
         public TaxServiceTests()
         {
@@ -21,11 +23,11 @@ namespace IMC_TaxService.Tests
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var mockLogger = new Mock<ILogger<TaxService>>();
-            ILogger<TaxService> logger = mockLogger.Object;
+            var mockLogger = new Mock<ILogger<TaxJarService>>();
+            ILogger<TaxJarService> logger = mockLogger.Object;
 
-            var taxSericeCalculator = new TaxServiceCalculator(config["Services:TaxJar:ServiceUrl"], config["Services:TaxJar:Authorization"]);
-            _taxService = new TaxService(taxSericeCalculator, logger);
+          
+            _taxService = new TaxJarService( logger,config);
         }
 
 
@@ -39,7 +41,7 @@ namespace IMC_TaxService.Tests
 
         [Fact]
         public async Task GetTaxRateOrderAsync_ReturnsTaxRateOrder()
-        {
+        { 
             var taxRateOrder = await _taxService.GetTaxRateOrderAsync("1");
             Assert.Null(taxRateOrder);
         }

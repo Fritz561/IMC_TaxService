@@ -21,4 +21,3 @@ C:\IMC\IMC_TaxService\IMC_TaxService\obj\Debug\netcoreapp3.1\IMC_TaxService.genr
 C:\IMC\IMC_TaxService\IMC_TaxService\bin\Debug\netcoreapp3.1\RestSharp.dll
 C:\IMC\IMC_TaxService\IMC_TaxService\obj\Debug\netcoreapp3.1\IMC_TaxService.csproj.CoreCompileInputs.cache
 C:\IMC\IMC_TaxService\IMC_TaxService\obj\Debug\netcoreapp3.1\IMC_TaxService.MvcApplicationPartsAssemblyInfo.cache
-C:\IMC\IMC_TaxService\IMC_TaxService\obj\Debug\netcoreapp3.1\IMC_TaxService.csprojAssemblyReference.cache

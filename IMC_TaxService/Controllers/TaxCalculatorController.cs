@@ -13,13 +13,16 @@ namespace IMC_TaxService.Controllers
     [ApiController]
     public class TaxCalculatorController : ControllerBase
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<TaxCalculatorController> _logger;
         private readonly IConfiguration _config;
+        private readonly ITaxStrategy _taxStrategy;
 
-        public TaxCalculatorController(ILogger<TaxCalculatorController> logger, IConfiguration config)
+        public TaxCalculatorController(ILogger<TaxCalculatorController> logger, IConfiguration config, ITaxStrategy taxStrategy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _config = config ?? throw new ArgumentNullException(nameof(config));
+            _taxStrategy = taxStrategy ?? throw new ArgumentNullException(nameof(taxStrategy));
+
         }
 
 
@@ -29,9 +32,8 @@ namespace IMC_TaxService.Controllers
         {
             try
             {
-                var taxCalculator = new TaxServiceCalculator(_config["Services:TaxJar:ServiceUrl"], _config["Services:TaxJar:Authorization"]);
-                var taxService = new TaxService(taxCalculator, _logger);
-                var taxRateLocation = await taxService.GetTaxRateLocationAsync(zip);
+                // TODO: add logic to check customer info to determine which strategy to use, ie: Enums.Services.TaxJar or Enums.Services.OtherTax 
+                var taxRateLocation = await _taxStrategy.GetTaxRateLocationAsync(zip,Enums.Services.TaxJar);
                 return Ok(taxRateLocation);
 
             }
@@ -49,9 +51,8 @@ namespace IMC_TaxService.Controllers
         {
             try
             {
-                var taxCalculator = new TaxServiceCalculator(_config["Services:TaxJar:ServiceUrl"], _config["Services:TaxJar:Authorization"]);
-                var taxService = new TaxService(taxCalculator, _logger);
-                var taxRateOrder = await taxService.GetTaxRateOrderAsync(orderId);
+                // TODO: add logic to check customer info to determine which strategy to use, ie: Enums.Services.TaxJar or Enums.Services.OtherTax 
+                var taxRateOrder = await _taxStrategy.GetTaxRateOrderAsync(orderId, Enums.Services.TaxJar);
                 return Ok(taxRateOrder);
 
             }
